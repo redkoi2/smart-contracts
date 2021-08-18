@@ -8,7 +8,6 @@ deploy
 deprecated
 node_modules
 _scripts
-test
 solcInputs
 flatten
 
