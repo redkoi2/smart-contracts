@@ -12,16 +12,16 @@ function getAmountOut(amountIn, reserveIn, reserveOut) {
     return numerator.div(denominator);
 }
 
-async function getTokenContract(tokenAddress, account=undefined) {
-    return await ethers.getContractAt("contracts/interfaces/IERC20.sol:IERC20", tokenAddress, account)
+async function getTokenContract(tokenAddress) {
+    return await ethers.getContractAt("contracts/interfaces/IERC20.sol:IERC20", tokenAddress)
 }
 
-async function getPairContract(pairAddress, account=undefined) {
-    return await ethers.getContractAt("IPair", pairAddress, account)
+async function getPairContract(pairAddress) {
+    return await ethers.getContractAt("IPair", pairAddress)
 }
 
-async function getWAVAXContract(account=undefined) {
-    return await ethers.getContractAt("IWAVAX", tokens.WAVAX, account)
+async function getWAVAXContract() {
+    return await ethers.getContractAt("IWAVAX", tokens.WAVAX)
 }
 
 async function fundWAVAX(account, amount) {
@@ -31,16 +31,16 @@ async function fundWAVAX(account, amount) {
 }
 
 async function fundToken(account, tokenToFund, amountAvax) {
-    const WAVAX = await getWAVAXContract(account)
+    const WAVAX = (await getWAVAXContract()).connect(account)
     //we're already funded in this case
     if (tokenToFund == WAVAX.address) return amountAvax
 
     const tokenContract = await getTokenContract(tokenToFund)
     const tokenSymbol = await tokenContract.symbol()
     
-    if (!(tokenSymbol in pairs.AVAX)) throw `No valid pair for AVAX-${tokenSymbol} required to fund the account with 1INCH from WAVAX`
+    if (!(tokenSymbol in pairs.AVAX)) throw `No valid pair for AVAX-${tokenSymbol} required to fund the account with WAVAX`
     const pairAddress = pairs.AVAX[tokenSymbol]
-    const fundPairContract = await getPairContract(pairAddress, account)
+    const fundPairContract = (await getPairContract(pairAddress)).connect(account)
     let [reserves0, reserves1] = await fundPairContract.getReserves()
     const token0 = await fundPairContract.token0()
     if (token0 != tokens.WAVAX) [reserves0, reserves1] = [reserves1, reserves0]
@@ -58,8 +58,8 @@ async function fundLiquidityToken(account, pairAddress, amountAvax) {
     amountAvax = BigNumber.from(amountAvax)
     const pairContract = await getPairContract(pairAddress, account)
     await fundWAVAX(account, amountAvax)
-    let pairToken0 = await getTokenContract(await pairContract.token0(), account)
-    let pairToken1 = await getTokenContract(await pairContract.token1(), account)
+    let pairToken0 = (await getTokenContract(await pairContract.token0())).connect(account)
+    let pairToken1 = (await getTokenContract(await pairContract.token1())).connect(account)
     let amountToken0 = await fundToken(account, pairToken0.address, amountAvax.div(2))
     let amountToken1 = await fundToken(account, pairToken1.address, amountAvax.div(2))
     expect(await pairToken0.balanceOf(account.address)).to.gte(amountToken0)
@@ -72,6 +72,16 @@ async function fundLiquidityToken(account, pairAddress, amountAvax) {
     let liquidityAmount = await pairContract.balanceOf(account.address)
     expect(liquidityAmount).to.gt(0)
     return liquidityAmount
+}
+
+async function fundStrategy(signer, strategy, amount = ethers.utils.parseEther("10")) {
+    const depositToken = await strategy.depositToken()
+    const depositTokenContract = (await getTokenContract(depositToken)).connect(signer)
+    const liquidity = await fundLiquidityToken(signer, depositTokenContract.address, amount)
+    const depositsBefore = await strategy.balanceOf(signer.address)
+    await depositTokenContract.approve(strategy.address, liquidity)
+    await strategy.connect(signer).deposit(liquidity)
+    return (await strategy.balanceOf(signer.address)).sub(depositsBefore)
 }
 
 
@@ -95,6 +105,7 @@ module.exports = {
     fundWAVAX,
     fundToken,
     fundLiquidityToken,
+    fundStrategy,
     getWAVAXContract,
     getPairContract,
     getTokenContract,

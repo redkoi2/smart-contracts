@@ -12,48 +12,39 @@ module.exports.accountsFixture = deployments.createFixture(async ({ethers, deplo
 
 
 module.exports.tokens = {
-    PNG: "0x60781c2586d68229fde47564546784ab3faca982",
-    WAVAX: "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7"
+    "PNG": "0x60781c2586d68229fde47564546784ab3faca982",
+    "WAVAX": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+    "WETH.e": "0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB",
+    "SNOB": "0xC38f41A296A4493Ff429F1238e030924A1542e50",
+    "VSO": "0x846D50248BAf8b7ceAA9d9B53BFd12d7D7FBB25a"
 }
 
 module.exports.stakingRewards = {
     "PGL": {
         "AVAX": {
-            "PNG": "0x574d3245e36Cf8C9dc86430EaDb0fDB2F385F829"
+            "PNG": "0x574d3245e36Cf8C9dc86430EaDb0fDB2F385F829",
+            "YAK": "0x0cf605484a512d3f3435fed77ab5ddc0525daf5f",
+            "WETH.e": "0x830A966B9B447c9B15aB24c0369c4018E75F31C9",
+            "VSO": "0xf2b788085592380bfCAc40Ac5E0d10D9d0b54eEe"
+        },
+        "PNG": {
+            "SNOB": "0x08B9A023e34Bad6Db868B699fa642Bf5f12Ebe76"
         }
     }
 }
 
 module.exports.pairs = {
     "AVAX": {
-        "PNG": "0xd7538cabbf8605bde1f4901b47b8d42c61de0367",
-        "ETH": "0x1acf1583bebdca21c8025e172d8e8f2817343d65",
-        "WETH": "0x1acf1583bebdca21c8025e172d8e8f2817343d65",
-        "WBTC": "0x7a6131110b82dacbb5872c7d352bfe071ea6a17c",
-        "LINK": "0xbbc7fff833d27264aac8806389e02f717a5506c9",
-        "USDT": "0x9ee0a4e21bd333a6bb2ab298194320b8daa26516",
-        "SUSHI": "0xd8b262c0676e13100b33590f10564b46eef652ad",
-        "DAI": "0x17a2e8275792b4616befb02eb9ae699aa0dcb94b",
-        "AAVE": "0x5f233a14e1315955f48c5750083d9a44b0df8b50",
-        "XAVA": "0x42152bdd72de8d6767fe3b4e17a221d6985e8b25",
-        "UNI": "0x92dc558cb9f8d0473391283ead77b79b416877ca",
-        "1INCH": "0xe6c5e55c12de2e59ebb5f9b0a19bc3fd71500db3",
-        "BAT": "0x9f471183fa95d26b08daf6c57eb45b8149dd6b5f",
-        "BUSD": "0x1d704f88fbdfff582bc46167e450f6f8dab83e64",
-        "GRT": "0xc005f8320dc4cd5ba32aa441b708c83eef8f64e9",
-        "SNX": "0x757c99fcd02da951582b47146f7bd75ae11f6f43",
-        "UMA": "0x453fae08f850056c9eed191fce71a60ccc22b31a",
-        "YFI": "0x7a886b5b2f24ed0ec0b3c4a17b930e16d160bd17"
+        "PNG": "0xd7538cABBf8605BdE1f4901B47B8D42c61DE0367",
+        "YAK": "0xd2f01cd87a43962fd93c21e07c1a420714cc94c9",
+        "WETH.e": "0x7c05d54fc5CB6e4Ad87c6f5db3b807C94bB89c52",
+        "SNOB": "0xa1C2c3B6b120cBd4Cec7D2371FFd4a931A134A32",
+        "VSO": "0x2b532bC0aFAe65dA57eccFB14ff46d16a12de5E6"
     },
     "PNG": {
-        "ETH": "0x53b37b9a6631c462d74d65d61e1c056ea9daa637",
-        "WETH": "0x53b37b9a6631c462d74d65d61e1c056ea9daa637",
-        "LINK": "0x7313835802c6e8ca2a6327e6478747b71440f7a4",
-        "SNOB": "0x97b4957df08e185502a0ac624f332c7f8967ee8d",
-        "USDT": "0xe8acf438b10a2c09f80aef3ef2858f8e758c98f9",
-        "PEFI": "0x1bb5541eccda68a352649954d4c8ece6ad68338d",
-        "AAVE": "0x0025cebd8289bbe0a51a5c85464da68cbc2ec0c4",
-        "WBTC": "0xf372ceae6b2f4a2c4a6c0550044a7eab914405ea"
+        "WETH.e": "0xcf35400A595EFCF0Af591D3Aeb5a35cBCD120d54",
+        "SNOB": "0x97B4957df08E185502A0ac624F332c7f8967eE8D",
+        "VSO": "0x9D472e21f6589380B21C42674B3585C47b74c891"
     }
 }
 
